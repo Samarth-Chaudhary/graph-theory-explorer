@@ -803,9 +803,14 @@ function updateProgressBar() {
 function next() { goTo((current + 1) % total); }
 function prev() { goTo((current - 1 + total) % total); }
 
-function startAutoPlay() { stopAutoPlay(); autoPlayTimer = setInterval(() => next(), 5000); }
+function anyModalOpen() {
+  return document.getElementById('quizModal').classList.contains('open')
+    || document.getElementById('videoModal').classList.contains('open')
+    || document.getElementById('pdfModal').classList.contains('open');
+}
+function startAutoPlay() { stopAutoPlay(); if (anyModalOpen()) return; autoPlayTimer = setInterval(() => next(), 5000); }
 function stopAutoPlay() { if (autoPlayTimer) { clearInterval(autoPlayTimer); autoPlayTimer = null; } }
-function resetAutoPlay() { stopAutoPlay(); autoPlayTimer = setInterval(() => next(), 5000); }
+function resetAutoPlay() { stopAutoPlay(); if (anyModalOpen()) return; autoPlayTimer = setInterval(() => next(), 5000); }
 
 stage.addEventListener('mouseenter', stopAutoPlay);
 stage.addEventListener('mouseleave', startAutoPlay);
@@ -833,6 +838,10 @@ document.addEventListener('keydown', e => {
   }
   if (document.getElementById('videoModal').classList.contains('open')) {
     if (e.key === 'Escape') closeVideo();
+    return;
+  }
+  if (document.getElementById('pdfModal').classList.contains('open')) {
+    if (e.key === 'Escape') closePdf();
     return;
   }
   if (document.getElementById('completionOverlay').classList.contains('show')) {
