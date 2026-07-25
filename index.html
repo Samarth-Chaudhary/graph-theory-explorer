@@ -868,12 +868,14 @@ function openVideo() {
     missing.style.display = 'flex';
   };
 
+  stopAutoPlay();
   document.getElementById('videoModal').classList.add('open');
 }
 function closeVideo() {
   document.getElementById('videoModal').classList.remove('open');
   const player = document.getElementById('videoPlayer');
   player.pause();
+  resetAutoPlay();
 }
 document.getElementById('btnVideo').addEventListener('click', openVideo);
 document.getElementById('closeVideo').addEventListener('click', closeVideo);
@@ -899,11 +901,13 @@ function openPdf() {
     }
   }).catch(() => { /* leave missing state showing */ });
 
+  stopAutoPlay();
   document.getElementById('pdfModal').classList.add('open');
 }
 function closePdf() {
   document.getElementById('pdfModal').classList.remove('open');
   document.getElementById('pdfFrame').src = '';
+  resetAutoPlay();
 }
 document.getElementById('btnPdf').addEventListener('click', openPdf);
 document.getElementById('closePdf').addEventListener('click', closePdf);
@@ -922,6 +926,7 @@ function openQuiz() {
   document.getElementById('quizExplanation').style.display = 'none';
   document.getElementById('quizScoreDisplay').textContent = '';
   renderQuestion();
+  stopAutoPlay();
   document.getElementById('quizModal').classList.add('open');
 }
 
@@ -967,7 +972,7 @@ function selectOption(oi) {
   document.getElementById('btnSubmit').disabled = false;
 }
 
-function closeQuiz() { document.getElementById('quizModal').classList.remove('open'); }
+function closeQuiz() { document.getElementById('quizModal').classList.remove('open'); resetAutoPlay(); }
 document.getElementById('btnQuiz').addEventListener('click', openQuiz);
 document.getElementById('closeQuiz').addEventListener('click', closeQuiz);
 
