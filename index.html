@@ -185,6 +185,17 @@
   .close-btn:hover { background: rgba(232,244,245,0.1); color: var(--text); transform: rotate(90deg) scale(1.1); border-color: rgba(232,244,245,0.2); }
   .close-btn:active { transform: rotate(90deg) scale(0.9); }
 
+  /* References table */
+  .ref-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 13px; }
+  .ref-table th { text-align: left; padding: 10px 14px; font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gold); border-bottom: 1px solid rgba(232,244,245,0.15); }
+  .ref-table td { padding: 12px 14px; color: var(--text-muted); border-bottom: 1px solid rgba(232,244,245,0.06); vertical-align: top; line-height: 1.5; }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: rgba(74,154,159,0.05); color: var(--text); }
+  .ref-table a { color: var(--gold); text-decoration: none; }
+  .ref-table a:hover { text-decoration: underline; }
+  .ref-num { color: var(--text-muted); font-family: 'Oswald', sans-serif; font-weight: 500; }
+
   /* Video / PDF viewer boxes */
   .video-box { width:100%; aspect-ratio: 16/9; background: #000; border: 1px solid rgba(74,154,159,0.25);
     border-radius: 16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 14px; color: var(--text-muted);
@@ -290,7 +301,7 @@
   <ul class="nav-links">
     <li><a href="#" class="active">Module</a></li>
     <li><a href="#">Topics</a></li>
-    <li><a href="#">Resources</a></li>
+    <li><a href="#" id="navResources">Resources</a></li>
     <li><a href="#">About</a></li>
   </ul>
   <div class="nav-icons">
@@ -421,6 +432,29 @@
     <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Completion</div></div>
   </div>
   <button class="btn btn-gold" id="btnRestart">Restart Module</button>
+</div>
+
+<div class="modal-backdrop" id="refsModal">
+  <div class="modal-content" style="max-width: 760px;">
+    <div class="modal-header">
+      <div class="modal-title">References</div>
+      <button class="close-btn" id="closeRefs">&times;</button>
+    </div>
+    <table class="ref-table">
+      <thead>
+        <tr><th style="width:34px;">#</th><th>Reference</th><th>Used For</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ref-num">1</td><td><a href="https://en.wikipedia.org/wiki/Graph_theory" target="_blank" rel="noopener">Wikipedia — Graph Theory</a></td><td>Definitions and classification of graph types</td></tr>
+        <tr><td class="ref-num">2</td><td><a href="https://mathworld.wolfram.com/topics/GraphTheory.html" target="_blank" rel="noopener">Wolfram MathWorld — Graph Theory</a></td><td>Formal mathematical definitions and properties</td></tr>
+        <tr><td class="ref-num">3</td><td><a href="https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/" target="_blank" rel="noopener">GeeksforGeeks — Graph Data Structure &amp; Algorithms</a></td><td>Explanations, examples, and quiz content</td></tr>
+        <tr><td class="ref-num">4</td><td>Diestel, R. — <em>Graph Theory</em> (5th ed., Springer, 2017)</td><td>Core textbook reference for graph classifications</td></tr>
+        <tr><td class="ref-num">5</td><td>West, D. B. — <em>Introduction to Graph Theory</em> (2nd ed., Pearson, 2001)</td><td>Supplementary definitions and terminology</td></tr>
+        <tr><td class="ref-num">6</td><td><a href="https://fonts.google.com/specimen/Oswald" target="_blank" rel="noopener">Google Fonts — Oswald &amp; Inter</a></td><td>Typography used throughout the page</td></tr>
+        <tr><td class="ref-num">7</td><td><a href="https://gsap.com/" target="_blank" rel="noopener">GSAP (GreenSock Animation Platform)</a></td><td>Scroll, transition, and card animations</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <script>
@@ -1068,6 +1102,17 @@ function checkCompletion() {
     stopAutoPlay();
   }
 }
+
+document.getElementById('navResources').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('refsModal').classList.add('open');
+});
+document.getElementById('closeRefs').addEventListener('click', () => {
+  document.getElementById('refsModal').classList.remove('open');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('refsModal').classList.remove('open');
+});
 
 document.getElementById('btnRestart').addEventListener('click', () => {
   completed.clear(); maxUnlocked = 0; cumulativeScore = 0; current = 0;
